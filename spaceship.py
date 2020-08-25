@@ -11,12 +11,15 @@ ROTATION_SPEED = 4  # radians per second
 class Spaceship(SpaceObject):
     
     def __init__(self, window_width, window_height, batch):
-        super().__init__(window_width // 2, window_height // 2, 0, window_width, window_height)
-        # sprite
-        image = pyglet.image.load('images/playerShip1_blue.png')
-        image.anchor_x = image.width // 2
-        image.anchor_y = image.height // 2
-        self.sprite = pyglet.sprite.Sprite(image, batch=batch)
+        super().__init__(
+            window_width // 2,
+            window_height // 2,
+            0,
+            window_width,
+            window_height,
+            'images/playerShip1_blue.png',
+            batch
+        )
         
         # speed
         self.x_speed = 0    # pixels per second
@@ -26,12 +29,6 @@ class Spaceship(SpaceObject):
         self.sync_sprite()
         
         
-    def sync_sprite(self):
-        self.sprite.x = self.x
-        self.sprite.y = self.y
-        self.sprite.rotation = 90 - math.degrees(self.rotation)  # degrees
-        
-    
     def tick(self, dt, pressed_keys):
         '''Controls move, rotation and control of spaceship'''
         # rotation

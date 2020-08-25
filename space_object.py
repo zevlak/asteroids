@@ -1,7 +1,11 @@
 # Class for each space object
 
+import math
+import pyglet
+
+
 class SpaceObject:
-    def __init__(self, x, y, rotation, window_width, window_height):
+    def __init__(self, x, y, rotation, window_width, window_height, image_path, batch):
         self.x = x
         self.y = y
         self.x_speed = 0    # pixels per second
@@ -10,7 +14,19 @@ class SpaceObject:
         # space dimensions
         self.space_width = window_width
         self.space_height = window_height
+        # sprite
+        image = pyglet.image.load(image_path)
+        image.anchor_x = image.width // 2
+        image.anchor_y = image.height // 2
+        self.sprite = pyglet.sprite.Sprite(image, batch=batch)
     
+
+    def sync_sprite(self):
+        self.sprite.x = self.x
+        self.sprite.y = self.y
+        self.sprite.rotation = 90 - math.degrees(self.rotation)  # degrees
+
+
     def tick(self, dt):
         self.x += dt * self.x_speed
         self.y += dt * self.y_speed
