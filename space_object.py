@@ -5,6 +5,8 @@ import pyglet
 
 
 class SpaceObject:
+    ''' Superclass for space objects'''
+    
     def __init__(self, x, y, rotation, window_width, window_height, image_path, batch):
         self.x = x
         self.y = y

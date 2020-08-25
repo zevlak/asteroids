@@ -2,6 +2,7 @@
 
 import pyglet
 from pyglet import gl
+from asteroid import Asteroid
 from spaceship import Spaceship
 
 WINDOW_WIDTH = 800  # pixels
@@ -43,6 +44,10 @@ objects = []
 ship = Spaceship(WINDOW_WIDTH, WINDOW_HEIGHT, batch)
 objects.append(ship)
 
+for i in range(0, 10):
+    asteroid = Asteroid(WINDOW_WIDTH, WINDOW_HEIGHT, batch)
+    objects.append(asteroid)
+
 # window
 window = pyglet.window.Window(WINDOW_WIDTH, WINDOW_HEIGHT, caption='ASTEROIDS')
 window.push_handlers(
@@ -51,5 +56,7 @@ window.push_handlers(
     on_key_release=key_release
 )
 
-pyglet.clock.schedule(ship.tick, PRESSED_KEYS)
+for obj in objects:
+    pyglet.clock.schedule(obj.tick, PRESSED_KEYS)
+
 pyglet.app.run()

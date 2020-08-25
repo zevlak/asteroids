@@ -10,6 +10,7 @@ ROTATION_SPEED = 4  # radians per second
 class Spaceship(SpaceObject):
     
     def __init__(self, window_width, window_height, batch):
+        '''Parameter batch is pyglet batch for sprites loading'''
         super().__init__(
             window_width // 2,
             window_height // 2,
