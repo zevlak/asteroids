@@ -2,24 +2,21 @@
 
 import math
 import pyglet
+from space_object import SpaceObject
 
 MAX_SPEED = 100     # pixels per second
 ACCELERATION = 50
 ROTATION_SPEED = 4  # radians per second
 
-class Spaceship:
+class Spaceship(SpaceObject):
     
     def __init__(self, window_width, window_height, batch):
+        super().__init__(window_width // 2, window_height // 2, 0, window_width, window_height)
         # sprite
         image = pyglet.image.load('images/playerShip1_blue.png')
         image.anchor_x = image.width // 2
         image.anchor_y = image.height // 2
         self.sprite = pyglet.sprite.Sprite(image, batch=batch)
-
-        # position
-        self.x = window_width // 2
-        self.y = window_height // 2
-        self.rotation = 0   # radians
         
         # speed
         self.x_speed = 0    # pixels per second
@@ -28,9 +25,6 @@ class Spaceship:
         # sprite position
         self.sync_sprite()
         
-        # space dimensions
-        self.space_width = window_width
-        self.space_height = window_height
         
     def sync_sprite(self):
         self.sprite.x = self.x
@@ -51,15 +45,6 @@ class Spaceship:
             self.x_speed += dt * ACCELERATION * math.cos(self.rotation)
             self.y_speed += dt * ACCELERATION * math.sin(self.rotation)
         
-        self.x += dt * self.x_speed
-        self.y += dt * self.y_speed
-        if self.x < 0:
-            self.x = self.space_width
-        elif self.x > self.space_width:
-            self.x = 0
-        if self.y <= 0:
-            self.y = self.space_height
-        elif self.y >= self.space_height:
-            self.y = 0
+        super().tick(dt)
         self.sync_sprite()
         
