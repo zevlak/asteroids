@@ -4,7 +4,6 @@ import math
 import pyglet
 from space_object import SpaceObject
 
-MAX_SPEED = 100     # pixels per second
 ACCELERATION = 50
 ROTATION_SPEED = 4  # radians per second
 
