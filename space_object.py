@@ -19,6 +19,8 @@ class SpaceObject:
         image.anchor_x = image.width // 2
         image.anchor_y = image.height // 2
         self.sprite = pyglet.sprite.Sprite(image, batch=batch)
+        # sprite position
+        self.sync_sprite()
     
 
     def sync_sprite(self):
@@ -38,4 +40,6 @@ class SpaceObject:
             self.y = self.space_height
         elif self.y >= self.space_height:
             self.y = 0
+
+        self.sync_sprite()
         

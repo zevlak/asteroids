@@ -23,10 +23,7 @@ class Spaceship(SpaceObject):
         # speed
         self.x_speed = 0    # pixels per second
         self.y_speed = 0    # pixels per second
-        
-        # sprite position
-        self.sync_sprite()
-        
+                
         
     def tick(self, dt, pressed_keys):
         '''Controls move, rotation and control of spaceship'''
@@ -42,5 +39,4 @@ class Spaceship(SpaceObject):
             self.y_speed += dt * ACCELERATION * math.sin(self.rotation)
         
         super().tick(dt)
-        self.sync_sprite()
         
