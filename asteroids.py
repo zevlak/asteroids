@@ -1,17 +1,24 @@
 # Game Asteroids
 
+import math     # for temporary method draw_circle
 import pyglet
 from pyglet import gl
-from asteroid import Asteroid
-from spaceship import Spaceship
+from space import Space
 
 WINDOW_WIDTH = 800  # pixels
 WINDOW_HEIGHT = 600  # pixels
-PRESSED_KEYS = set()
+pressed_keys = set()
 
 def draw():
     window.clear()
-
+    
+    # temporary circles
+    for obj in space.ships:
+        draw_circle(obj.x, obj.y, obj.radius)
+    for obj in space.asteroids:
+        draw_circle(obj.x, obj.y, obj.radius)
+    
+    # draw neightbour windows for fluent ship flight over end of window
     for x_offset in (-window.width, 0, window.width):
         for y_offset in (-window.height, 0, window.height):
             # Remember the current state
@@ -28,35 +35,44 @@ def draw():
 
 def key_press(key, modificators):
     '''Processes key press'''
-    PRESSED_KEYS.add(key)
+    pressed_keys.add(key)
 
 
 def key_release(key, modificators):
     '''Processes key release'''
-    PRESSED_KEYS.discard(key)
+    pressed_keys.discard(key)
+
+def draw_circle(x, y, radius):
+    '''Temporary method for collision system'''
+    iterations = 20
+    s = math.sin(2*math.pi / iterations)
+    c = math.cos(2*math.pi / iterations)
+
+    dx, dy = radius, 0
+
+    gl.glBegin(gl.GL_LINE_STRIP)
+    for i in range(iterations+1):
+        gl.glVertex2f(x+dx, y+dy)
+        dx, dy = (dx*c - dy*s), (dy*c + dx*s)
+    gl.glEnd()
+
 
 
 # batch for loading sprites
 batch = pyglet.graphics.Batch()
 
-#objects
-objects = []
-ship = Spaceship(WINDOW_WIDTH, WINDOW_HEIGHT, batch)
-objects.append(ship)
-
-for i in range(0, 10):
-    asteroid = Asteroid(WINDOW_WIDTH, WINDOW_HEIGHT, batch)
-    objects.append(asteroid)
+# space
+space = Space(WINDOW_WIDTH, WINDOW_HEIGHT, batch)
+space.create_objects()
 
 # window
-window = pyglet.window.Window(WINDOW_WIDTH, WINDOW_HEIGHT, caption='ASTEROIDS')
+window = pyglet.window.Window(space.width, space.height, caption='ASTEROIDS')
 window.push_handlers(
     on_draw=draw,
     on_key_press=key_press,
     on_key_release=key_release
 )
 
-for obj in objects:
-    pyglet.clock.schedule(obj.tick, PRESSED_KEYS)
 
+pyglet.clock.schedule(space.tick, pressed_keys)
 pyglet.app.run()

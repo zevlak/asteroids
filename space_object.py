@@ -7,24 +7,28 @@ import pyglet
 class SpaceObject:
     ''' Superclass for space objects'''
     
-    def __init__(self, x, y, rotation, window_width, window_height, image_path, batch):
+    def __init__(self, x, y, rotation, sprite, space_width, space_height):
         self.x = x
         self.y = y
-        self.x_speed = 0    # pixels per second
-        self.y_speed = 0    # pixels per second
-        self.rotation = rotation   # in radians
-        # space dimensions
-        self.space_width = window_width
-        self.space_height = window_height
-        # sprite
-        image = pyglet.image.load(image_path)
-        image.anchor_x = image.width // 2
-        image.anchor_y = image.height // 2
-        self.sprite = pyglet.sprite.Sprite(image, batch=batch)
+        self.x_speed = 0                    # pixels per second
+        self.y_speed = 0                    # pixels per second
+        self.rotation = rotation            # in radians
+        self.space_width = space_width      # pixels
+        self.space_height = space_height    # pixels
+        self.sprite = sprite
         # sprite position
         self.sync_sprite()
+        
+        # radius for circle for colision system
+        self.radius = self.sprite.width // 2
+        
+        
+    def delete(self):
+        self.sprite.delete()
+        del(self.sprite)
+        del(self)
     
-
+    
     def sync_sprite(self):
         self.sprite.x = self.x
         self.sprite.y = self.y
@@ -32,6 +36,7 @@ class SpaceObject:
 
 
     def tick(self, dt):
+        '''Moves space object'''
         self.x += dt * self.x_speed
         self.y += dt * self.y_speed
         if self.x < 0:
@@ -44,4 +49,17 @@ class SpaceObject:
             self.y = 0
 
         self.sync_sprite()
-        
+    
+    def overlaps(self, space_object, space_width, space_height):
+        """Returns true if overlaps with another space objects"""
+        distance_squared = (distance(self.x, space_object.x, space_width) ** 2 +
+                            distance(self.y, space_object.y, space_height) ** 2)
+        max_distance_squared = (self.radius + space_object.radius) ** 2
+        return distance_squared < max_distance_squared
+
+def distance(a, b, wrap_size):
+    """Distance in one direction (x or y)"""
+    result = abs(a - b)
+    if result > wrap_size / 2:
+        result = wrap_size - result
+    return result

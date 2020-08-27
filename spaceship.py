@@ -9,25 +9,19 @@ ROTATION_SPEED = 4  # radians per second
 
 class Spaceship(SpaceObject):
     
-    def __init__(self, window_width, window_height, batch):
-        '''Parameter batch is pyglet batch for sprites loading'''
+    def __init__(self, x, y, sprite, space_width, space_height):
         super().__init__(
-            window_width // 2,
-            window_height // 2,
+            x,
+            y,
             0,
-            window_width,
-            window_height,
-            'images/playerShip1_blue.png',
-            batch
+            sprite,
+            space_width,
+            space_height
         )
-        
-        # speed
-        self.x_speed = 0    # pixels per second
-        self.y_speed = 0    # pixels per second
-                
+                        
         
     def tick(self, dt, pressed_keys):
-        '''Controls move, rotation and control of spaceship'''
+        '''Move spaceship'''
         # rotation
         if pyglet.window.key.LEFT in pressed_keys:
             self.rotation += dt * ROTATION_SPEED
