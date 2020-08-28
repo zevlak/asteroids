@@ -10,24 +10,25 @@ IMAGES_SHIP = [
 ]
 
 
-def draw_text(text, x, y):
+def draw_text(text, x, y, font_size, bold=False):
     '''Draws text as label'''
     pyglet.text.Label(
         text,
-        font_size=FONT_SIZE,
-        x=x, y=y
+        font_size=font_size,
+        x=x, y=y,
+        bold=bold
     ).draw()
-
 
 
 class GameStatus:
     
-    def __init__(self, batch, ship_img_idx, window_height):
+    def __init__(self, batch, ship_img_idx, window_width, window_height):
         self.score = 0
         self.lifes = 3
         self.level = 1
         self.batch = batch
         self.ship_img_idx = ship_img_idx
+        self.window_width = window_width
         self.window_height = window_height
         self.sprites = []
     
@@ -48,6 +49,8 @@ class GameStatus:
         del(sprite)
     
     def draw(self):
-        draw_text('Level: ' + str(self.level), 10, self.window_height - FONT_SIZE - 10)
-        draw_text('Score: ' + str(self.score), 10, self.window_height - 2 * FONT_SIZE - 5 - 10)
+        draw_text('Level: ' + str(self.level), 10, self.window_height - FONT_SIZE - 10, FONT_SIZE)
+        draw_text('Score: ' + str(self.score), 10, self.window_height - 2 * FONT_SIZE - 5 - 10, FONT_SIZE)
         
+    def game_over(self):
+        draw_text('GAME OVER!', self.window_width // 2 - 190, self.window_height // 2 - 20, 40, True)
