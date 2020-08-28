@@ -26,14 +26,14 @@ IMAGES_LASER = ['images/laserGreen13.png']
 
 class Space:
 
-    def __init__(self, width, height, batch, game_state, ship_img_idx):
+    def __init__(self, width, height, batch, game_status, ship_img_idx):
         self.width = width
         self.height = height
         self.ships = []
         self.asteroids = []
         self.lasers = []
         self.batch = batch
-        self.game_state = game_state
+        self.game_status = game_status
         self.ship_img_idx = ship_img_idx
         # create first laser sprite and when fire is done then create new one
         self.laser_sprite = self.sprite(IMAGES_LASER)
@@ -59,7 +59,7 @@ class Space:
                 y = randrange(0, self.height)
             
             size = len(IMAGES_ASTEROID) - i - 1
-            for j in range(0, self.game_state.level - i):
+            for j in range(0, self.game_status.level - i):
                 asteroid = Asteroid(x, y, size, self.sprite(IMAGES_ASTEROID[size]), self.width, self.height)
                 self.asteroids.append(asteroid)
 
@@ -99,8 +99,8 @@ class Space:
                     ship.delete()
             
             # next lifes
-            if not self.ships and self.game_state.lifes > 1:
-                self.game_state.remove_life()
+            if not self.ships and self.game_status.lifes > 1:
+                self.game_status.remove_life()
                 self.create_ship()
                 
     
@@ -136,7 +136,7 @@ class Space:
                         score = 20
                     elif asteroid.size == 3:
                         score = 10
-                    self.game_state.score += score
+                    self.game_status.score += score
                     
                     laser.delete()
                     asteroid.delete()
@@ -146,6 +146,6 @@ class Space:
             
             # Create new asteroids if there are no
             if not self.asteroids:
-                self.game_state.level += 1
+                self.game_status.level += 1
                 self.create_asteroids()
     

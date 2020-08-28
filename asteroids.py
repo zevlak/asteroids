@@ -2,7 +2,7 @@
 
 import pyglet
 from pyglet import gl
-from game_state import GameState
+from game_status import GameStatus
 from space import Space
 
 WINDOW_WIDTH = 800  # pixels
@@ -30,9 +30,9 @@ def draw():
             gl.glPopMatrix()
     
     # level
-    draw_text('Level: ' + str(game_state.level), 10, WINDOW_HEIGHT - FONT_SIZE - 10)
+    draw_text('Level: ' + str(game_status.level), 10, WINDOW_HEIGHT - FONT_SIZE - 10)
     # score
-    draw_text('Score: ' + str(game_state.score), 10, WINDOW_HEIGHT - 2 * FONT_SIZE - 5 - 10)
+    draw_text('Score: ' + str(game_status.score), 10, WINDOW_HEIGHT - 2 * FONT_SIZE - 5 - 10)
 
 def draw_text(text, x, y):
     '''Draws text as label'''
@@ -57,11 +57,11 @@ def key_release(key, modificators):
 batch = pyglet.graphics.Batch()
 
 # game state
-game_state = GameState(batch, SHIP_IMAGE_INDEX)
-game_state.draw_lifes()
+game_status = GameStatus(batch, SHIP_IMAGE_INDEX)
+game_status.draw_lifes()
 
 # space
-space = Space(WINDOW_WIDTH, WINDOW_HEIGHT, batch, game_state, SHIP_IMAGE_INDEX)
+space = Space(WINDOW_WIDTH, WINDOW_HEIGHT, batch, game_status, SHIP_IMAGE_INDEX)
 space.create_objects()
 
 # window

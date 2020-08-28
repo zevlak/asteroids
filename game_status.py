@@ -1,4 +1,4 @@
-# Class for game state
+# Class for game status
 
 import pyglet
 
@@ -9,7 +9,7 @@ IMAGES_SHIP = [
 ]
 
 
-class GameState:
+class GameStatus:
     
     def __init__(self, batch, ship_img_idx):
         self.score = 0
