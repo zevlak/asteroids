@@ -72,7 +72,13 @@ class Space:
         return pyglet.sprite.Sprite(image, batch=self.batch)
         
     def tick(self, dt, pressed_keys):
-        '''Moves space objects'''
+        '''process space objects'''
+        self.process_ships(dt, pressed_keys)
+        self.process_asteroids(dt)
+        self.process_lasers(dt)
+        
+        
+    def process_ships(self, dt, pressed_keys):
         for ship in self.ships:
             ship.tick(dt, pressed_keys)
             if pyglet.window.key.SPACE in pressed_keys:
@@ -81,7 +87,8 @@ class Space:
                     self.lasers.append(laser)
                     # create new laser sprite
                     self.laser_sprite = self.sprite(IMAGES_LASER)
-        
+
+    def process_asteroids(self, dt):
         for asteroid in self.asteroids:
             asteroid.tick(dt)
             # check collisions
@@ -90,7 +97,8 @@ class Space:
                 if ship.overlaps(asteroid, self.width, self.height):
                     self.ships.remove(ship)
                     ship.delete()
-        
+    
+    def process_lasers(self, dt):
         for laser in self.lasers:
             laser.tick(dt)
             if not laser.live():
@@ -134,5 +142,4 @@ class Space:
             if not self.asteroids:
                 self.game_state.level += 1
                 self.create_asteroids()
-        
-
+    
