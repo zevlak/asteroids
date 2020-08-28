@@ -24,9 +24,6 @@ def draw():
 
             # Draw
             batch.draw()
-            game_status.draw()
-            if game_status.lifes < 1:
-                game_status.game_over()
 
             # Restore remembered state (this cancels the glTranslatef)
             gl.glPopMatrix()
@@ -48,6 +45,7 @@ batch = pyglet.graphics.Batch()
 # game state
 game_status = GameStatus(batch, SHIP_IMAGE_INDEX, WINDOW_WIDTH, WINDOW_HEIGHT)
 game_status.draw_lifes()
+game_status.draw()
 
 # space
 space = Space(WINDOW_WIDTH, WINDOW_HEIGHT, batch, game_status, SHIP_IMAGE_INDEX)
