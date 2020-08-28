@@ -7,7 +7,7 @@ from space import Space
 
 WINDOW_WIDTH = 800  # pixels
 WINDOW_HEIGHT = 600  # pixels
-FONT_SIZE = 40
+FONT_SIZE = 20
 SHIP_IMAGE_INDEX = 0
 
 pressed_keys = set()
