@@ -92,6 +92,9 @@ class Space:
             #  destroy asteroids
             for asteroid in self.asteroids:
                 if laser.overlaps(asteroid, self.width, self.height):
+                    self.lasers.remove(laser)
+                    self.asteroids.remove(asteroid)
+
                     if asteroid.size > 0:
                         new_size = asteroid.size - 1
                         for i in range(0, 2):
@@ -105,11 +108,19 @@ class Space:
                             )
                             self.asteroids.append(new_asteroid)
                     
-                    self.game_state.score += 1
+                    score = 100
+                    if asteroid.size == 1:
+                        score = 50
+                    elif asteroid.size == 2:
+                        score = 20
+                    elif asteroid.size == 3:
+                        score = 10
+                    self.game_state.score += score
                     
                     laser.delete()
-                    self.lasers.remove(laser)
                     asteroid.delete()
-                    self.asteroids.remove(asteroid)
+                    
+                    # it has to break because neither asteroid nor laser exists
+                    break
         
 
