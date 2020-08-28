@@ -40,9 +40,16 @@ class Space:
     
     def create_objects(self):
         '''Create all objects in the space'''
+        self.create_ship()
+        self.create_asteroids()
+            
+    def create_ship(self):
+        '''Create ship'''
         ship = Spaceship(self.width // 2, self.height // 2, self.sprite([IMAGES_SHIP[self.ship_img_idx]]), self.width, self.height)
         self.ships.append(ship)
         
+    def create_asteroids(self):
+        '''Create asteroids'''
         for i in range(0, len(IMAGES_ASTEROID)):
             x = 0
             y = 0
@@ -55,8 +62,7 @@ class Space:
             for j in range(0, self.game_state.level - i):
                 asteroid = Asteroid(x, y, size, self.sprite(IMAGES_ASTEROID[size]), self.width, self.height)
                 self.asteroids.append(asteroid)
-            
-    
+
     def sprite(self, image_list):
         '''Loads image and return sprite'''
         image = pyglet.image.load(choice(image_list))
@@ -123,5 +129,10 @@ class Space:
                     
                     # it has to break because neither asteroid nor laser exists
                     break
+            
+            # Create new asteroids if there are no
+            if not self.asteroids:
+                self.game_state.level += 1
+                self.create_asteroids()
         
 

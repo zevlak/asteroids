@@ -7,7 +7,7 @@ from space import Space
 
 WINDOW_WIDTH = 800  # pixels
 WINDOW_HEIGHT = 600  # pixels
-FONT_SIZE = 20
+FONT_SIZE = 15
 SHIP_IMAGE_INDEX = 0
 
 pressed_keys = set()
@@ -29,8 +29,10 @@ def draw():
             # Restore remembered state (this cancels the glTranslatef)
             gl.glPopMatrix()
     
+    # level
+    draw_text('Level: ' + str(game_state.level), 10, WINDOW_HEIGHT - FONT_SIZE - 10)
     # score
-    draw_text(str(game_state.score), 20, WINDOW_HEIGHT - FONT_SIZE - 20)
+    draw_text('Score: ' + str(game_state.score), 10, WINDOW_HEIGHT - 2 * FONT_SIZE - 5 - 10)
 
 def draw_text(text, x, y):
     '''Draws text as label'''
