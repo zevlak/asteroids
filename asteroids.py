@@ -8,6 +8,7 @@ from space import Space
 WINDOW_WIDTH = 800  # pixels
 WINDOW_HEIGHT = 600  # pixels
 FONT_SIZE = 40
+SHIP_IMAGE_INDEX = 0
 
 pressed_keys = set()
 
@@ -57,7 +58,7 @@ batch = pyglet.graphics.Batch()
 game_state = GameState()
 
 # space
-space = Space(WINDOW_WIDTH, WINDOW_HEIGHT, batch, game_state)
+space = Space(WINDOW_WIDTH, WINDOW_HEIGHT, batch, game_state, SHIP_IMAGE_INDEX)
 space.create_objects()
 
 # window
