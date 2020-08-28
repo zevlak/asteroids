@@ -7,7 +7,6 @@ from space import Space
 
 WINDOW_WIDTH = 800  # pixels
 WINDOW_HEIGHT = 600  # pixels
-FONT_SIZE = 15
 SHIP_IMAGE_INDEX = 0
 
 pressed_keys = set()
@@ -25,23 +24,11 @@ def draw():
 
             # Draw
             batch.draw()
+            game_status.draw()
 
             # Restore remembered state (this cancels the glTranslatef)
             gl.glPopMatrix()
     
-    # level
-    draw_text('Level: ' + str(game_status.level), 10, WINDOW_HEIGHT - FONT_SIZE - 10)
-    # score
-    draw_text('Score: ' + str(game_status.score), 10, WINDOW_HEIGHT - 2 * FONT_SIZE - 5 - 10)
-
-def draw_text(text, x, y):
-    '''Draws text as label'''
-    pyglet.text.Label(
-        text,
-        font_size=FONT_SIZE,
-        x=x, y=y
-    ).draw()
-
 
 def key_press(key, modificators):
     '''Processes key press'''
@@ -57,7 +44,7 @@ def key_release(key, modificators):
 batch = pyglet.graphics.Batch()
 
 # game state
-game_status = GameStatus(batch, SHIP_IMAGE_INDEX)
+game_status = GameStatus(batch, SHIP_IMAGE_INDEX, WINDOW_HEIGHT)
 game_status.draw_lifes()
 
 # space

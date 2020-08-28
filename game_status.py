@@ -2,6 +2,7 @@
 
 import pyglet
 
+FONT_SIZE = 15
 IMAGES_SHIP = [
     'images/playerShip1_blue.png',
     'images/playerShip2_blue.png',
@@ -9,14 +10,25 @@ IMAGES_SHIP = [
 ]
 
 
+def draw_text(text, x, y):
+    '''Draws text as label'''
+    pyglet.text.Label(
+        text,
+        font_size=FONT_SIZE,
+        x=x, y=y
+    ).draw()
+
+
+
 class GameStatus:
     
-    def __init__(self, batch, ship_img_idx):
+    def __init__(self, batch, ship_img_idx, window_height):
         self.score = 0
         self.lifes = 3
         self.level = 1
         self.batch = batch
         self.ship_img_idx = ship_img_idx
+        self.window_height = window_height
         self.sprites = []
     
     def draw_lifes(self):
@@ -34,3 +46,8 @@ class GameStatus:
         sprite = self.sprites.pop()
         sprite.delete()
         del(sprite)
+    
+    def draw(self):
+        draw_text('Level: ' + str(self.level), 10, self.window_height - FONT_SIZE - 10)
+        draw_text('Score: ' + str(self.score), 10, self.window_height - 2 * FONT_SIZE - 5 - 10)
+        
