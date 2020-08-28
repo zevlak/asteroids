@@ -1,6 +1,5 @@
 # Game Asteroids
 
-import math     # for temporary method draw_circle
 import pyglet
 from pyglet import gl
 from game_state import GameState
@@ -14,13 +13,7 @@ pressed_keys = set()
 
 def draw():
     window.clear()
-    
-    # temporary circles
-    for obj in space.ships:
-        draw_circle(obj.x, obj.y, obj.radius)
-    for obj in space.asteroids:
-        draw_circle(obj.x, obj.y, obj.radius)
-    
+        
     # draw neightbour windows for fluent ship flight over end of window
     for x_offset in (-window.width, 0, window.width):
         for y_offset in (-window.height, 0, window.height):
@@ -55,21 +48,6 @@ def key_press(key, modificators):
 def key_release(key, modificators):
     '''Processes key release'''
     pressed_keys.discard(key)
-
-def draw_circle(x, y, radius):
-    '''Temporary method for collision system'''
-    iterations = 20
-    s = math.sin(2*math.pi / iterations)
-    c = math.cos(2*math.pi / iterations)
-
-    dx, dy = radius, 0
-
-    gl.glBegin(gl.GL_LINE_STRIP)
-    for i in range(iterations+1):
-        gl.glVertex2f(x+dx, y+dy)
-        dx, dy = (dx*c - dy*s), (dy*c + dx*s)
-    gl.glEnd()
-
 
 
 # batch for loading sprites
