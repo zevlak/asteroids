@@ -3,10 +3,13 @@
 import math     # for temporary method draw_circle
 import pyglet
 from pyglet import gl
+from game_state import GameState
 from space import Space
 
 WINDOW_WIDTH = 800  # pixels
 WINDOW_HEIGHT = 600  # pixels
+FONT_SIZE = 40
+
 pressed_keys = set()
 
 def draw():
@@ -31,6 +34,17 @@ def draw():
 
             # Restore remembered state (this cancels the glTranslatef)
             gl.glPopMatrix()
+    
+    # score
+    draw_text(str(game_state.score), 20, WINDOW_HEIGHT - FONT_SIZE - 20)
+
+def draw_text(text, x, y):
+    '''Draws text as label'''
+    pyglet.text.Label(
+        text,
+        font_size=FONT_SIZE,
+        x=x, y=y
+    ).draw()
 
 
 def key_press(key, modificators):
@@ -61,8 +75,11 @@ def draw_circle(x, y, radius):
 # batch for loading sprites
 batch = pyglet.graphics.Batch()
 
+# game state
+game_state = GameState()
+
 # space
-space = Space(WINDOW_WIDTH, WINDOW_HEIGHT, batch)
+space = Space(WINDOW_WIDTH, WINDOW_HEIGHT, batch, game_state)
 space.create_objects()
 
 # window

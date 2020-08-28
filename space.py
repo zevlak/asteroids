@@ -27,13 +27,14 @@ IMAGES_LASER = ['images/laserGreen13.png']
 
 class Space:
 
-    def __init__(self, width, height, batch):
+    def __init__(self, width, height, batch, game_state):
         self.width = width
         self.height = height
         self.ships = []
         self.asteroids = []
         self.lasers = []
         self.batch = batch
+        self.game_state = game_state
         # create first laser sprite and when fire is done then create new one
         self.laser_sprite = self.sprite(IMAGES_LASER)
     
@@ -102,8 +103,8 @@ class Space:
                                 self.height
                             )
                             self.asteroids.append(new_asteroid)
-                    else:
-                        print('DESTROYED')
+                    
+                    self.game_state.score += 1
                     
                     laser.delete()
                     self.lasers.remove(laser)
