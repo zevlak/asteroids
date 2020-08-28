@@ -97,6 +97,12 @@ class Space:
                 if ship.overlaps(asteroid, self.width, self.height):
                     self.ships.remove(ship)
                     ship.delete()
+            
+            # next lifes
+            if not self.ships and self.game_state.lifes > 1:
+                self.game_state.remove_life()
+                self.create_ship()
+                
     
     def process_lasers(self, dt):
         for laser in self.lasers:

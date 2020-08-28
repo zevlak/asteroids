@@ -57,7 +57,8 @@ def key_release(key, modificators):
 batch = pyglet.graphics.Batch()
 
 # game state
-game_state = GameState()
+game_state = GameState(batch, SHIP_IMAGE_INDEX)
+game_state.draw_lifes()
 
 # space
 space = Space(WINDOW_WIDTH, WINDOW_HEIGHT, batch, game_state, SHIP_IMAGE_INDEX)
