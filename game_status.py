@@ -22,7 +22,6 @@ class GameStatus:
     def draw_lifes(self):
         image = pyglet.image.load(IMAGES_SHIP[self.ship_img_idx])
         for i in range(0, self.lifes):
-            print(i)
             sprite = pyglet.sprite.Sprite(image, batch=self.batch)
             sprite.scale = 1/3
             sprite.opacity = 100
