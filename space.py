@@ -99,9 +99,14 @@ class Space:
                     ship.delete()
             
             # next lifes
-            if not self.ships and self.game_status.lifes > 1:
-                self.game_status.remove_life()
-                self.create_ship()
+            if not self.ships:
+                if self.game_status.lifes > 1:
+                    self.game_status.remove_life()
+                    self.create_ship()
+                elif self.game_status.lifes == 1:
+                    self.game_status.remove_life()
+                    pyglet.clock.unschedule(self.tick)
+            
                 
     
     def process_lasers(self, dt):
