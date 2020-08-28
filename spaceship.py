@@ -2,10 +2,12 @@
 
 import math
 import pyglet
+from laser import Laser
 from space_object import SpaceObject
 
 ACCELERATION = 50
 ROTATION_SPEED = 4  # radians per second
+LASER_CADENCE = 0.3   # second to fire
 
 class Spaceship(SpaceObject):
     
@@ -18,7 +20,14 @@ class Spaceship(SpaceObject):
             space_width,
             space_height
         )
-                        
+        
+        self.last_fire = 0
+    
+    def fire(self, sprite):
+        '''Fires laser if can'''
+        if self.last_fire > LASER_CADENCE:
+            self.last_fire = 0
+            return Laser(self.x, self.y, self.rotation, sprite, self.x_speed, self.y_speed, self.space_width, self.space_width)
         
     def tick(self, dt, pressed_keys):
         '''Move spaceship'''
@@ -32,6 +41,8 @@ class Spaceship(SpaceObject):
         if pyglet.window.key.UP in pressed_keys:
             self.x_speed += dt * ACCELERATION * math.cos(self.rotation)
             self.y_speed += dt * ACCELERATION * math.sin(self.rotation)
+        
+        self.last_fire += dt
         
         super().tick(dt)
         

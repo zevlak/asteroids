@@ -10,7 +10,7 @@ MAX_ROTATION = 5
 
 class Asteroid(SpaceObject):
     
-    def __init__(self, x, y, sprite, space_width, space_height):
+    def __init__(self, x, y, size, sprite, space_width, space_height):
         super().__init__(
             x,
             y,
@@ -20,6 +20,7 @@ class Asteroid(SpaceObject):
             space_height
         )
         
+        self.size = size
         self.x_speed = randrange(-MAX_SPEED, MAX_SPEED)
         self.y_speed = randrange(-MAX_SPEED, MAX_SPEED)
         self.rotation_speed = uniform(-MAX_ROTATION, MAX_ROTATION)
@@ -29,3 +30,4 @@ class Asteroid(SpaceObject):
         '''Moves asteroid'''
         self.rotation += dt * self.rotation_speed
         super().tick(dt)
+    

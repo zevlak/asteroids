@@ -73,6 +73,5 @@ window.push_handlers(
     on_key_release=key_release
 )
 
-
 pyglet.clock.schedule(space.tick, pressed_keys)
 pyglet.app.run()

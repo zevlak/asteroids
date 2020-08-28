@@ -24,12 +24,14 @@ class SpaceObject:
         
         
     def delete(self):
+        '''Delete space object'''
         self.sprite.delete()
         del(self.sprite)
         del(self)
     
     
     def sync_sprite(self):
+        '''Moves sprite to object location'''
         self.sprite.x = self.x
         self.sprite.y = self.y
         self.sprite.rotation = 90 - math.degrees(self.rotation)  # degrees
