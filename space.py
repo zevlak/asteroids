@@ -35,8 +35,6 @@ class Space:
         self.batch = batch
         self.game_status = game_status
         self.ship_img_idx = ship_img_idx
-        # create first laser sprite and when fire is done then create new one
-        self.laser_sprite = self.sprite(IMAGES_LASER)
     
     def create_objects(self):
         '''Create all objects in the space'''
@@ -82,11 +80,9 @@ class Space:
         for ship in self.ships:
             ship.tick(dt, pressed_keys)
             if pyglet.window.key.SPACE in pressed_keys:
-                laser = ship.fire(self.laser_sprite)
+                laser = ship.fire(self.sprite(IMAGES_LASER))
                 if laser is not None:
                     self.lasers.append(laser)
-                    # create new laser sprite
-                    self.laser_sprite = self.sprite(IMAGES_LASER)
 
     def process_asteroids(self, dt):
         for asteroid in self.asteroids:
