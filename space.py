@@ -6,7 +6,6 @@ from laser import Laser
 from spaceship import Spaceship
 from asteroid import Asteroid
 
-ASTEROIDS_COUNT = 5
 IMAGES_SHIP = [
     'images/playerShip1_blue.png',
     'images/playerShip2_blue.png',
@@ -44,16 +43,18 @@ class Space:
         ship = Spaceship(self.width // 2, self.height // 2, self.sprite([IMAGES_SHIP[self.ship_img_idx]]), self.width, self.height)
         self.ships.append(ship)
         
-        for i in range(0, ASTEROIDS_COUNT):
+        for i in range(0, len(IMAGES_ASTEROID)):
             x = 0
             y = 0
             if randrange(0, 2) == 0:
                 x = randrange(0, self.width)
             else:
                 y = randrange(0, self.height)
-            size = randrange(0, 4)
-            asteroid = Asteroid(x, y, size, self.sprite(IMAGES_ASTEROID[size]), self.width, self.height)
-            self.asteroids.append(asteroid)
+            
+            size = len(IMAGES_ASTEROID) - i - 1
+            for j in range(0, self.game_state.level - i):
+                asteroid = Asteroid(x, y, size, self.sprite(IMAGES_ASTEROID[size]), self.width, self.height)
+                self.asteroids.append(asteroid)
             
     
     def sprite(self, image_list):
