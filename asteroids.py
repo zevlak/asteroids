@@ -2,18 +2,21 @@
 
 import pyglet
 from pyglet import gl
+from random import choice
 from game_status import GameStatus
 from space import Space
 
 WINDOW_WIDTH = 1280  # pixels
 WINDOW_HEIGHT = 720  # pixels
 SHIP_IMAGE_INDEX = 0
+BACKGROUNDS = ['images/background_01.jpg', 'images/background_02.jpg', 'images/background_03.jpg']
 
 pressed_keys = set()
 
 def draw():
     window.clear()
         
+    batch_bkg.draw()
     batch_status.draw()
     game_status.draw()
     
@@ -45,6 +48,7 @@ def key_release(key, modificators):
 # batch for graphics
 batch = pyglet.graphics.Batch()
 batch_status = pyglet.graphics.Batch()
+batch_bkg = pyglet.graphics.Batch()
 
 # game state
 game_status = GameStatus(batch_status, SHIP_IMAGE_INDEX, WINDOW_WIDTH, WINDOW_HEIGHT)
@@ -62,6 +66,9 @@ window.push_handlers(
     on_key_press=key_press,
     on_key_release=key_release
 )
+background = pyglet.image.load(choice(BACKGROUNDS))
+sprite = pyglet.sprite.Sprite(background, batch=batch_bkg)
+#sprite.opacity = 90
 
 pyglet.clock.schedule(space.tick, pressed_keys)
 pyglet.app.run()
