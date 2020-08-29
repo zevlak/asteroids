@@ -5,8 +5,8 @@ from pyglet import gl
 from game_status import GameStatus
 from space import Space
 
-WINDOW_WIDTH = 800  # pixels
-WINDOW_HEIGHT = 600  # pixels
+WINDOW_WIDTH = 1280  # pixels
+WINDOW_HEIGHT = 720  # pixels
 SHIP_IMAGE_INDEX = 0
 
 pressed_keys = set()
