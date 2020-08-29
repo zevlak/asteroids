@@ -10,8 +10,16 @@ IMAGES_SHIP = [
 ]
 
 
-def draw_text(text, x, y, font_size, batch, bold=False):
+def draw_text(text, x, y, font_size, bold=False):
     '''Draws text as label'''
+    pyglet.text.Label(
+        text,
+        font_size=font_size,
+        x=x, y=y,
+        bold=bold
+    ).draw()
+    
+def draw_text_batch(text, x, y, font_size, batch, bold=False):
     pyglet.text.Label(
         text,
         font_size=font_size,
@@ -19,6 +27,7 @@ def draw_text(text, x, y, font_size, batch, bold=False):
         bold=bold,
         batch=batch
     ).draw()
+   
 
 
 class GameStatus:
@@ -48,13 +57,13 @@ class GameStatus:
         sprite = self.sprites.pop()
         sprite.delete()
         del(sprite)
-        
+
         if self.lifes < 1:
             self.game_over()
     
     def draw(self):
-        draw_text('Level: ' + str(self.level), 10, self.window_height - FONT_SIZE - 10, FONT_SIZE, self.batch)
-        draw_text('Score: ' + str(self.score), 10, self.window_height - 2 * FONT_SIZE - 5 - 10, FONT_SIZE, self.batch)
+        draw_text('Level: ' + str(self.level), 10, self.window_height - FONT_SIZE - 10, FONT_SIZE)
+        draw_text('Score: ' + str(self.score), 10, self.window_height - 2 * FONT_SIZE - 5 - 10, FONT_SIZE)
         
     def game_over(self):
-        draw_text('GAME OVER!', self.window_width // 2 - 190, self.window_height // 2 - 20, 40, self.batch, True)
+        draw_text_batch('GAME OVER!', self.window_width // 2 - 190, self.window_height // 2 - 20, 40, self.batch, True)

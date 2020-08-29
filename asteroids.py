@@ -14,6 +14,9 @@ pressed_keys = set()
 def draw():
     window.clear()
         
+    batch_status.draw()
+    game_status.draw()
+    
     # draw neightbour windows for fluent ship flight over end of window
     for x_offset in (-window.width, 0, window.width):
         for y_offset in (-window.height, 0, window.height):
@@ -39,13 +42,14 @@ def key_release(key, modificators):
     pressed_keys.discard(key)
 
 
-# batch for loading sprites
+# batch for graphics
 batch = pyglet.graphics.Batch()
+batch_status = pyglet.graphics.Batch()
 
 # game state
-game_status = GameStatus(batch, SHIP_IMAGE_INDEX, WINDOW_WIDTH, WINDOW_HEIGHT)
+game_status = GameStatus(batch_status, SHIP_IMAGE_INDEX, WINDOW_WIDTH, WINDOW_HEIGHT)
 game_status.draw_lifes()
-game_status.draw()
+#game_status.draw()
 
 # space
 space = Space(WINDOW_WIDTH, WINDOW_HEIGHT, batch, game_status, SHIP_IMAGE_INDEX)
