@@ -21,12 +21,14 @@ class Spaceship(SpaceObject):
             space_height
         )
         
+        self.fire_sound = pyglet.media.StaticSource(pyglet.media.load('sounds/laser-gun-19sf.mp3'))
         self.last_fire = 0
     
     def fire(self, sprite):
         '''Fires laser if can'''
         if self.last_fire > LASER_CADENCE:
             self.last_fire = 0
+            self.fire_sound.play()
             return Laser(self.x, self.y, self.rotation, sprite, self.x_speed, self.y_speed, self.space_width, self.space_width)
         
     def tick(self, dt, pressed_keys):
