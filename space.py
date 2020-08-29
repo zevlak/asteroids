@@ -3,7 +3,7 @@
 import pyglet
 from random import choice, randrange
 from laser import Laser
-from smoke import Smoke
+from effect import Effect
 from spaceship import Spaceship
 from asteroid import Asteroid
 
@@ -32,7 +32,18 @@ IMAGES_SMOKE = [
     'images/whitePuff05.png',
     'images/whitePuff06.png',
     'images/whitePuff07.png',
-    'images/whitePuff08.png',
+    'images/whitePuff08.png'
+]
+IMAGES_FIRE = [
+    'images/explosion08.png',
+    'images/explosion01.png',
+    'images/explosion02.png',
+    'images/explosion03.png',
+    'images/explosion04.png',
+    'images/explosion05.png',
+    'images/explosion06.png',
+    'images/explosion07.png',
+    'images/explosion08.png'
 ]
 
 class Space:
@@ -77,7 +88,7 @@ class Space:
     def create_smoke(self, x, y, asteroid_size):
         '''Creates random count of smoke'''
         for i in range(0, randrange(3, 7)):
-            smoke = Smoke(
+            effect = Effect(
                 x + randrange(10, 30),
                 y + randrange(10, 30),
                 self.sprite(IMAGES_SMOKE, self.batch_effects),
@@ -85,8 +96,21 @@ class Space:
                 self.width,
                 self.height
             )
-            self.effects.append(smoke)
-            
+            self.effects.append(effect)
+
+    def create_fire(self, x, y):
+        '''Creates random count of fire'''
+        for i in range(0, randrange(3, 7)):
+            effect = Effect(
+                x + randrange(10, 30),
+                y + randrange(10, 30),
+                self.sprite(IMAGES_FIRE, self.batch_effects),
+                4,
+                self.width,
+                self.height
+            )
+            self.effects.append(effect)
+
     def sprite(self, image_list, batch):
         '''Loads image and return sprite'''
         image = pyglet.image.load(choice(image_list))
@@ -120,6 +144,7 @@ class Space:
                 if ship.overlaps(asteroid, self.width, self.height):
                     self.ships.remove(ship)
                     ship.delete()
+                    self.create_fire(ship.x, ship.y)
             
             # next lifes
             if not self.ships:

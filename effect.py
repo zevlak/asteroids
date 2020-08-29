@@ -1,12 +1,12 @@
-# Class for smoke when asteroid is destroyed
+# Class for effects when asteroid is destroyed
 
 from math import pi
 from random import uniform
 from space_object import SpaceObject
 
-SMOKE_LIVE = 2
+EFFECT_LIVE = 3
 
-class Smoke(SpaceObject):
+class Effect(SpaceObject):
     
     def __init__(self, x, y, sprite, size, space_width, space_height):
         super().__init__(
@@ -19,7 +19,7 @@ class Smoke(SpaceObject):
         )
         self.sprite.opacity = 100
         self.sprite.scale = 1/size
-        self.life_time = SMOKE_LIVE
+        self.life_time = EFFECT_LIVE
     
     def tick(self, dt):
         self.life_time -= dt
