@@ -3,6 +3,7 @@
 import pyglet
 from random import choice, randrange
 from laser import Laser
+from smoke import Smoke
 from spaceship import Spaceship
 from asteroid import Asteroid
 
@@ -22,17 +23,29 @@ IMAGES_ASTEROID.append([
     'images/meteorGrey_big4.png'
 ])
 IMAGES_LASER = ['images/laserGreen13.png']
-
+IMAGES_SMOKE = [
+    'images/whitePuff00.png',
+    'images/whitePuff01.png',
+    'images/whitePuff02.png',
+    'images/whitePuff03.png',
+    'images/whitePuff04.png',
+    'images/whitePuff05.png',
+    'images/whitePuff06.png',
+    'images/whitePuff07.png',
+    'images/whitePuff08.png',
+]
 
 class Space:
 
-    def __init__(self, width, height, batch, game_status, ship_img_idx):
+    def __init__(self, width, height, batch, batch_effects, game_status, ship_img_idx):
         self.width = width
         self.height = height
         self.ships = []
         self.asteroids = []
         self.lasers = []
+        self.effects = []
         self.batch = batch
+        self.batch_effects = batch_effects
         self.game_status = game_status
         self.ship_img_idx = ship_img_idx
     
@@ -43,7 +56,7 @@ class Space:
             
     def create_ship(self):
         '''Create ship'''
-        ship = Spaceship(self.width // 2, self.height // 2, self.sprite([IMAGES_SHIP[self.ship_img_idx]]), self.width, self.height)
+        ship = Spaceship(self.width // 2, self.height // 2, self.sprite([IMAGES_SHIP[self.ship_img_idx]], self.batch), self.width, self.height)
         self.ships.append(ship)
         
     def create_asteroids(self):
@@ -58,29 +71,43 @@ class Space:
             
             size = len(IMAGES_ASTEROID) - i - 1
             for j in range(0, self.game_status.level - i):
-                asteroid = Asteroid(x, y, size, self.sprite(IMAGES_ASTEROID[size]), self.width, self.height)
+                asteroid = Asteroid(x, y, size, self.sprite(IMAGES_ASTEROID[size], self.batch), self.width, self.height)
                 self.asteroids.append(asteroid)
 
-    def sprite(self, image_list):
+    def create_smoke(self, x, y, asteroid_size):
+        '''Creates random count of smoke'''
+        for i in range(0, randrange(3, 7)):
+            smoke = Smoke(
+                x + randrange(10, 30),
+                y + randrange(10, 30),
+                self.sprite(IMAGES_SMOKE, self.batch_effects),
+                20 // (asteroid_size + 1),
+                self.width,
+                self.height
+            )
+            self.effects.append(smoke)
+            
+    def sprite(self, image_list, batch):
         '''Loads image and return sprite'''
         image = pyglet.image.load(choice(image_list))
         image.anchor_x = image.width // 2
         image.anchor_y = image.height // 2
         
-        return pyglet.sprite.Sprite(image, batch=self.batch)
+        return pyglet.sprite.Sprite(image, batch=batch)
         
     def tick(self, dt, pressed_keys):
         '''process space objects'''
         self.process_ships(dt, pressed_keys)
         self.process_asteroids(dt)
         self.process_lasers(dt)
+        self.process_effect(dt)
         
         
     def process_ships(self, dt, pressed_keys):
         for ship in self.ships:
             ship.tick(dt, pressed_keys)
             if pyglet.window.key.SPACE in pressed_keys:
-                laser = ship.fire(self.sprite(IMAGES_LASER))
+                laser = ship.fire(self.sprite(IMAGES_LASER, self.batch))
                 if laser is not None:
                     self.lasers.append(laser)
 
@@ -124,11 +151,13 @@ class Space:
                                 asteroid.x,
                                 asteroid.y,
                                 new_size,
-                                self.sprite(IMAGES_ASTEROID[new_size]),
+                                self.sprite(IMAGES_ASTEROID[new_size], self.batch),
                                 self.width,
                                 self.height
                             )
                             self.asteroids.append(new_asteroid)
+                    
+                    self.create_smoke(asteroid.x, asteroid.y, asteroid.size)
                     
                     score = 100
                     if asteroid.size == 1:
@@ -149,4 +178,12 @@ class Space:
             if not self.asteroids:
                 self.game_status.level += 1
                 self.create_asteroids()
-    
+
+ 
+    def process_effect(self, dt):
+        for effect in self.effects:
+            effect.tick(dt)
+            
+            if effect.life_time < 0:
+                self.effects.remove(effect)
+                effect.delete()

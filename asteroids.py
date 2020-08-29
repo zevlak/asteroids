@@ -17,6 +17,7 @@ def draw():
     window.clear()
         
     batch_bkg.draw()
+    batch_effects.draw()
     batch_status.draw()
     game_status.draw()
     
@@ -49,6 +50,7 @@ def key_release(key, modificators):
 batch = pyglet.graphics.Batch()
 batch_status = pyglet.graphics.Batch()
 batch_bkg = pyglet.graphics.Batch()
+batch_effects = pyglet.graphics.Batch()
 
 # game state
 game_status = GameStatus(batch_status, SHIP_IMAGE_INDEX, WINDOW_WIDTH, WINDOW_HEIGHT)
@@ -56,7 +58,7 @@ game_status.draw_lifes()
 #game_status.draw()
 
 # space
-space = Space(WINDOW_WIDTH, WINDOW_HEIGHT, batch, game_status, SHIP_IMAGE_INDEX)
+space = Space(WINDOW_WIDTH, WINDOW_HEIGHT, batch, batch_effects, game_status, SHIP_IMAGE_INDEX)
 space.create_objects()
 
 # window
