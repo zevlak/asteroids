@@ -29,7 +29,7 @@ class Spaceship(SpaceObject):
         if self.last_fire > LASER_CADENCE:
             self.last_fire = 0
             self.fire_sound.play()
-            return Laser(self.x, self.y, self.rotation, sprite, self.x_speed, self.y_speed, self.space_width, self.space_width)
+            return Laser(self.x, self.y, self.rotation, sprite, self.x_speed, self.y_speed, self.space_width, self.space_height)
         
     def tick(self, dt, pressed_keys):
         '''Move spaceship'''
