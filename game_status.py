@@ -67,3 +67,6 @@ class GameStatus:
         
     def game_over(self):
         draw_text_batch('GAME OVER!', self.window_width // 2 - 190, self.window_height // 2 - 20, 40, self.batch, True)
+        draw_text_batch('Level: ' + str(self.level), self.window_width // 2 - 90, self.window_height // 2 - 70, 30, self.batch, True)
+        draw_text_batch('Score: ' + str(self.score), self.window_width // 2 - 90, self.window_height // 2 - 110, 30, self.batch, True)
+
