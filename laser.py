@@ -4,7 +4,7 @@ import math
 from space_object import SpaceObject
 
 
-LASER_LIVE = 3      # in seconds
+LASER_LIVE = 2      # in seconds
 LASER_SPEED = 500   # pixels per second
 
 
