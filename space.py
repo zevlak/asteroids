@@ -142,7 +142,7 @@ class Space:
             # check collisions
             # ships check from asteroids, because ships are less
             for ship in self.ships:
-                if ship.overlaps(asteroid, self.width, self.height):
+                if not ship.is_unbeatable() and ship.overlaps(asteroid, self.width, self.height):
                     self.ships.remove(ship)
                     ship.delete()
                     self.create_fire(ship.x, ship.y)

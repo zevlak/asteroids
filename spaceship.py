@@ -6,8 +6,9 @@ from laser import Laser
 from space_object import SpaceObject
 
 ACCELERATION = 50
-ROTATION_SPEED = 4  # radians per second
-LASER_CADENCE = 0.3   # second to fire
+ROTATION_SPEED = 4      # radians per second
+LASER_CADENCE = 0.3     # second to fire
+UNBEATEABLE_TIME = 3    # ship cannot been killed in this time after creation
 
 class Spaceship(SpaceObject):
     
@@ -21,6 +22,8 @@ class Spaceship(SpaceObject):
             space_height
         )
         
+        self.unbeatable_time = UNBEATEABLE_TIME
+        
         self.fire_sound = pyglet.media.StaticSource(pyglet.media.load('sounds/laser-gun-19sf.mp3'))
         self.last_fire = 0
     
@@ -33,6 +36,13 @@ class Spaceship(SpaceObject):
         
     def tick(self, dt, pressed_keys):
         '''Move spaceship'''
+        # blinks in unbeatable status
+        if self.is_unbeatable():
+            self.unbeatable_time -= dt
+            self.sprite.visible = not self.sprite.visible
+        elif not self.sprite.visible:
+            self.sprite.visible = True
+        
         # rotation
         if pyglet.window.key.LEFT in pressed_keys:
             self.rotation += dt * ROTATION_SPEED
@@ -48,3 +58,6 @@ class Spaceship(SpaceObject):
         
         super().tick(dt)
         
+    def is_unbeatable(self):
+        '''If ship si unbeatable'''
+        return self.unbeatable_time > 0
