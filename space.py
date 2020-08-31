@@ -134,6 +134,7 @@ class Space:
                 laser = ship.fire(self.sprite(IMAGES_LASER, self.batch))
                 if laser is not None:
                     self.lasers.append(laser)
+                    self.game_status.lasers_fired += 1
 
     def process_asteroids(self, dt):
         for asteroid in self.asteroids:
@@ -164,6 +165,8 @@ class Space:
             #  destroy asteroids
             for asteroid in self.asteroids:
                 if laser.overlaps(asteroid, self.width, self.height):
+                    self.game_status.asteroids_destroyed += 1
+                    
                     self.lasers.remove(laser)
                     self.asteroids.remove(asteroid)
 
