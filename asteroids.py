@@ -16,7 +16,6 @@ pressed_keys = set()
 def draw():
     window.clear()
         
-    game_status.draw()
     batch_bkg.draw()
     batch_effects.draw()
     
@@ -35,6 +34,7 @@ def draw():
             gl.glPopMatrix()
 
     batch_status.draw()
+    game_status.draw()
     
 
 def key_press(key, modificators):
