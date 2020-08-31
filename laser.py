@@ -5,7 +5,7 @@ from space_object import SpaceObject
 
 
 LASER_LIVE = 3      # in seconds
-LASER_SPEED = 250   # pixels per second
+LASER_SPEED = 500   # pixels per second
 
 
 class Laser(SpaceObject):
