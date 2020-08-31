@@ -160,9 +160,7 @@ class Space:
     def process_lasers(self, dt):
         for laser in self.lasers:
             laser.tick(dt)
-            if not laser.live():
-                laser.delete()
-                self.lasers.remove(laser)
+            
             #  destroy asteroids
             for asteroid in self.asteroids:
                 if laser.overlaps(asteroid, self.width, self.height):
@@ -199,6 +197,11 @@ class Space:
                     # it has to break because neither asteroid nor laser exists
                     break
             
+            # destroy dead laser
+            if not laser.live():
+                laser.delete()
+                self.lasers.remove(laser)
+
             # Create new asteroids if there are no
             if not self.asteroids:
                 self.game_status.level += 1
