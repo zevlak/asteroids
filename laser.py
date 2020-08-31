@@ -10,8 +10,8 @@ LASER_SPEED = 250   # pixels per second
 
 class Laser(SpaceObject):
     
-    def __init__(self, x, y, rotation, sprite, ship_x_speed, ship_y_speed, space_width, space_hight):
-        super().__init__(x, y, rotation, sprite, space_width, space_hight)
+    def __init__(self, x, y, rotation, sprite, ship_x_speed, ship_y_speed, space_width, space_height):
+        super().__init__(x, y, rotation, sprite, space_width, space_height)
         
         self.x_speed += LASER_SPEED * math.cos(self.rotation) + ship_x_speed
         self.y_speed += LASER_SPEED * math.sin(self.rotation) + ship_y_speed
