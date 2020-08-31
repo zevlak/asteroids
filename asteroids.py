@@ -16,10 +16,9 @@ pressed_keys = set()
 def draw():
     window.clear()
         
+    game_status.draw()
     batch_bkg.draw()
     batch_effects.draw()
-    batch_status.draw()
-    game_status.draw()
     
     # draw neightbour windows for fluent ship flight over end of window
     for x_offset in (-window.width, 0, window.width):
@@ -34,6 +33,8 @@ def draw():
 
             # Restore remembered state (this cancels the glTranslatef)
             gl.glPopMatrix()
+
+    batch_status.draw()
     
 
 def key_press(key, modificators):
