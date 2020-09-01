@@ -29,6 +29,12 @@ class Spaceship(SpaceObject):
         self.fire_sound = pyglet.media.StaticSource(pyglet.media.load('sounds/laser-gun-19sf.mp3'))
         self.last_fire = 0
     
+    def delete(self):
+        '''Delete engine sprite too'''
+        self.engine_sprite.delete()
+        del(self.engine_sprite)
+        super().delete()
+    
     def fire(self, sprite):
         '''Fires laser if can'''
         if self.last_fire > LASER_CADENCE:
