@@ -12,6 +12,7 @@ IMAGES_SHIP = [
     'images/playerShip2_blue.png',
     'images/playerShip3_blue.png'
 ]
+IMAGES_ENGINE = 'images/fire15.png'
 IMAGES_ASTEROID = []
 IMAGES_ASTEROID.append(['images/meteorGrey_tiny1.png', 'images/meteorGrey_tiny2.png'])
 IMAGES_ASTEROID.append(['images/meteorGrey_small1.png', 'images/meteorGrey_small2.png'])
@@ -67,7 +68,24 @@ class Space:
             
     def create_ship(self):
         '''Create ship'''
-        ship = Spaceship(self.width // 2, self.height // 2, self.sprite([IMAGES_SHIP[self.ship_img_idx]], self.batch), self.width, self.height)
+        ship_image = pyglet.image.load(IMAGES_SHIP[self.ship_img_idx])
+        ship_image.anchor_x = ship_image.width // 2
+        ship_image.anchor_y = ship_image.height // 2
+        ship_sprite = pyglet.sprite.Sprite(ship_image, batch=self.batch)
+        
+        engine_image = pyglet.image.load(IMAGES_ENGINE)
+        engine_image.anchor_x = engine_image.width // 2
+        engine_image.anchor_y = engine_image.height + ship_image.height // 2
+        engine_sprite = pyglet.sprite.Sprite(engine_image, batch=self.batch_effects)
+        
+        ship = Spaceship(
+            self.width // 2,
+            self.height // 2,
+            ship_sprite,
+            engine_sprite,
+            self.width,
+            self.height
+        )
         self.ships.append(ship)
         
     def create_asteroids(self):

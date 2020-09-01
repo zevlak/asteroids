@@ -12,7 +12,10 @@ UNBEATEABLE_TIME = 3    # ship cannot been killed in this time after creation
 
 class Spaceship(SpaceObject):
     
-    def __init__(self, x, y, sprite, space_width, space_height):
+    def __init__(self, x, y, sprite, engine_sprite, space_width, space_height):
+        self.engine_sprite = engine_sprite
+        self.engine_sprite.visible = False
+        
         super().__init__(
             x,
             y,
@@ -23,7 +26,6 @@ class Spaceship(SpaceObject):
         )
         
         self.unbeatable_time = UNBEATEABLE_TIME
-        
         self.fire_sound = pyglet.media.StaticSource(pyglet.media.load('sounds/laser-gun-19sf.mp3'))
         self.last_fire = 0
     
@@ -53,10 +55,21 @@ class Spaceship(SpaceObject):
         if pyglet.window.key.UP in pressed_keys:
             self.x_speed += dt * ACCELERATION * math.cos(self.rotation)
             self.y_speed += dt * ACCELERATION * math.sin(self.rotation)
+            self.engine_sprite.visible = True
+        else:
+            self.engine_sprite.visible = False
         
         self.last_fire += dt
         
         super().tick(dt)
+    
+    def sync_sprite(self):
+        '''Moves sprite to object location'''
+        super().sync_sprite()
+
+        self.engine_sprite.x = self.x
+        self.engine_sprite.y = self.y
+        self.engine_sprite.rotation = self.sprite.rotation
         
     def is_unbeatable(self):
         '''If ship si unbeatable'''
